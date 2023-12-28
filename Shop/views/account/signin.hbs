@@ -1,0 +1,47 @@
+<section class="vh-100 mt-4" style="background-color: rgb(255, 255, 255);">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+        <div class="card shadow-2-strong" style="border-radius: 1rem;">
+          <div class="card-body p-5 text-center" style="background-color: rgb(230, 227, 227);">
+            <form>
+
+            <h3 class="mb-5">Sign in</h3>
+
+            <div class="form-outline mb-4">
+              <input type="text" id="username" name="username" class="form-control form-control-lg" placeholder="Enter username"/>
+            </div>
+
+            <div class="form-outline mb-4">
+              <input type="password" id="psw" name="password"  class="form-control form-control-lg" placeholder="Enter password"/>
+            </div>
+
+            <div class="form-outline custom-control custom-control mb-4">
+              <label for="tokenLife">Life time login</label>
+              <select class="custom-select" id="tokenLife" name="tokenLife">
+          <option value="1" selected>1 day</option>
+          <option value="15">15 days</option>
+          <option value="30">30 days</option>
+          <option value="45">45 days</option>
+        </select>
+            </div>
+
+            <!-- Checkbox -->
+            <div class="form-check d-flex justify-content-start mb-4">
+              <input class="form-check-input" type="checkbox" name="remember" id="remember" />
+              <label class="form-check-label" for="form1Example3"> Remember me </label>
+            </div>
+
+            <button class="btn btn-primary btn-lg btn-block" type="submit">Sign In</button>
+           </form>
+           {{#if msg}}
+           <div class="alert alert-{{color}} mt-4">
+                   <strong>{{msg}}</strong>
+            </div>
+           {{/if}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

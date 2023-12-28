@@ -1,0 +1,16 @@
+{"Users": [
+    {
+      "fullname": "Pham Van Anh Thu",
+      "nickname": "bapcai",
+      "password":"123456",
+      "image":""
+    },
+    {
+        "fullname": "Nguyen Thanh Hue",
+        "nickname": "thue12",
+        "password":"123abc",
+        "image":""
+      }
+  ]
+}
+
