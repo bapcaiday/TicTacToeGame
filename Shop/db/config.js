@@ -1,9 +1,8 @@
 const fs = require("fs");
 const path = require("path");
 
-
 // Đường dẫn đến file JSON chứa dữ liệu kết nối
-const dataFilePath = "./Auth/data.json"
+const dataFilePath = "./Shop/data.json"
 
 // Đọc dữ liệu từ file JSON
 

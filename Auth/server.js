@@ -5,6 +5,9 @@ const express = require("express");
 const app = express();
 const https = require("https");
 const cookieparser = require("cookie-parser");
+const exphbs = require("express-handlebars");
+
+const route=require("./routers");
 
 const port = process.env.AUTH_PORT;
 const bodyparser = require("body-parser");
@@ -20,9 +23,23 @@ app.use(
     }),
   );
 
+  app.use('/public/image',express.static(__dirname+'/public/image'));
+app.use('/public/js',express.static(__dirname+'/public/js'));
+app.use('/public/css',express.static(__dirname+'/public/css'));
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
   app.use(cookieparser());
+
+  app.engine(
+    'hbs',
+    exphbs.engine({
+        extname: '.hbs',
+    })
+);
+app.set('view engine','hbs');
+app.set('views',path.join(__dirname,'views'));
+
+  route(app);
 
   app.use((err, req, res, next) => {
     const statusCode = err.statusCode | 500;

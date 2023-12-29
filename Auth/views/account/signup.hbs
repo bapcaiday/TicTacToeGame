@@ -1,0 +1,82 @@
+<section class="vh-100 mt-4" style="background-color: rgb(255, 255, 255);">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+        <div class="card shadow-2-strong" style="border-radius: 1rem;">
+          <div class="card-body p-5 text-center" style="background-color: rgb(230, 227, 227);">
+            <form id="registerForm">
+
+            <h3 class="mb-5">Register</h3>
+
+            <div class="form-outline mb-4">
+              <input type="text" id="username" name="username" class="form-control form-control-lg" placeholder="Enter username"/>
+            </div>
+
+            <div class="form-outline mb-4">
+              <input type="password" id="password" name="password"  class="form-control form-control-lg" placeholder="Enter password"/>
+            </div>
+
+            <div class="form-outline mb-4">
+              <input type="text" id="fullname" name="fullname"  class="form-control form-control-lg" placeholder="Enter fullname"/>
+            </div>
+
+            <div class="col-12">
+           <span>
+                  Already have an account?
+                 <a href="/login">Login </a>
+            </span>
+          </div>
+
+            <button class="btn btn-primary btn-lg btn-block" type="submit">Sign In</button>
+          
+      
+           </form>
+
+           
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
+
+<script> 
+  const loginForm = $("#registerForm");
+  loginForm.on("submit", async function (e) {
+     e.preventDefault();
+
+  const data = $(this)
+    .serializeArray()
+    .reduce((obj, field) => ({ ...obj, [field.name]: field.value }), {});
+
+  fetch('https://localhost:3113/auth/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+            .then(response => {
+                if (!response.ok) {
+                  return response.json();
+                }
+                else{
+                  window.location.href = "./login";
+                  return;
+                }
+ 
+            })
+            .then(data => {
+                if (data && data.msg) {
+                     alert(data.msg);
+                }
+             })
+            .catch(error => {
+               console.error(error);
+            });
+
+  
+  });
+</script>

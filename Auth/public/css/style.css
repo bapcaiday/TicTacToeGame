@@ -1,0 +1,38 @@
+body{margin-top:20px;
+    background:#f1f2f7;
+    }
+    
+    /*panel*/
+    .panel {
+        border: none;
+        box-shadow: none;
+    }
+    
+    .panel-heading {
+        border-color:#eff2f7 ;
+        font-size: 16px;
+        font-weight: 300;
+    }
+    
+    .panel-title {
+        color: #2A3542;
+        font-size: 14px;
+        font-weight: 400;
+        margin-bottom: 0;
+        margin-top: 0;
+        font-family: 'Open Sans', sans-serif;
+    }
+
+    .display-username{
+        font-size: 15px;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .app__body{
+        min-height: 600px;
+    }
+
+    .product__img{
+        height: 60px;
+        width: 60px;
+    }

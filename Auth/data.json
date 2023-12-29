@@ -1,0 +1,22 @@
+{
+  "Users": [
+    {
+      "fullname": "Pham Thu",
+      "username": "bapcai",
+      "password": "$2b$10$a7Is4pd.BeuPkHY28MXVwO1rEukVlzzztlPQqY6SNT8lO.A3IQVJ.",
+      "avatar": ""
+    },
+    {
+      "fullname": "Thai Bao",
+      "username": "bao",
+      "password": "$2b$10$tMyzp0B/LHihpqxgCqovU.WNOW6nPI7E23Imw84qAz22iZvC2xSFK",
+      "avatar": ""
+    },
+    {
+      "fullname": "Thanh Hue",
+      "username": "thue",
+      "password": "$2b$10$lPYIrTdQ0RfZmNemTlLWseWjn5GYhATTXgmpL8NeaX0w8lD1N6Oye",
+      "avatar": ""
+    }
+  ]
+}
