@@ -12,7 +12,7 @@ class AuthController{
               res.clearCookie("token");
             }
         
-            res.redirect("/login");
+            res.redirect("/");
           } catch (error) {
             next(error);
           }
@@ -41,14 +41,18 @@ class AuthController{
         fullname:data.fullname,
         avatar:data.avatar
       });
-      const rs=User.insert(newUser);
-            if (!rs){
-                return res.status(400).json({
-                    msg: "Có lỗi trong quá trình đăng nhập, vui lòng thử lại.",
-                  });
+
+      const user=User.getByUn(newUser.username);
+      if (user){
+        const rs=User.insert(newUser);
+        if (!rs){
+            return res.status(400).json({
+                msg: "Có lỗi trong quá trình đăng nhập, vui lòng thử lại.",
+              });
+       }
       }
       res.cookie('token',token,{maxAge:data.tokenLife*1000||360000, httpOnly:true });
-      res.send("Succesfully");
+      res.redirect("/")
 
     }
 
