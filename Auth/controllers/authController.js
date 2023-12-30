@@ -5,7 +5,9 @@ const jwt=require("jsonwebtoken")
 
 class AuthController{
     async login(req,res,next){ 
-        res.render("account/signin");
+        res.render("account/signin", {
+            clientQuery: req.query
+        });
     }
 
     async signup(req,res,next){ 
@@ -15,8 +17,7 @@ class AuthController{
     async check(req,res,next){ 
         try{
             const { username, password, tokenLife } = req.body;
-
-        const user=User.getByUn(username);
+            const user=User.getByUn(username);
         if (!user){
             return res.status(401).json({ msg: "Tên đăng nhập không tồn tại." });
         }

@@ -21,7 +21,9 @@ class AuthController{
     async login(req,res,next){
         res.redirect('https://localhost:3113/auth/login');
     }
-  
+    async dashboard(req,res,next){
+      res.render('dashboard');
+  }
 
     async callback(req,res,next){
       const token = req.query.token;
@@ -43,7 +45,7 @@ class AuthController{
       });
 
       const user=User.getByUn(newUser.username);
-      if (user){
+      if (!user){
         const rs=User.insert(newUser);
         if (!rs){
             return res.status(400).json({

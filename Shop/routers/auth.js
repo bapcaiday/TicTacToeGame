@@ -7,5 +7,5 @@ route.get('/login',AuthController.login);
 route.get('/logout',AuthController.logout);
 route.get('/callback',AuthController.callback);
 route.get('/',AuthController.home);
-
+route.get('/dashboard',AuthController.dashboard)
 module.exports=route;
