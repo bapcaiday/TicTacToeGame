@@ -1,6 +1,6 @@
 const jwt=require("jsonwebtoken");
 const db=require("../db/config")
-const User=require("../models/user")
+const User=require("../models/user");
 
 class AuthController{
 
@@ -43,7 +43,7 @@ class AuthController{
       });
 
       const user=User.getByUn(newUser.username);
-      if (user){
+      if (!user){
         const rs=User.insert(newUser);
         if (!rs){
             return res.status(400).json({
@@ -51,13 +51,26 @@ class AuthController{
               });
        }
       }
+
+     
       res.cookie('token',token,{maxAge:data.tokenLife*1000||360000, httpOnly:true });
-      res.redirect("/")
+      res.redirect("/game/index")
 
     }
 
     async home(req,res,next){
+      try {
+        const isLogin = !!req.cookies.token;
+    
+        if (isLogin) {
+          res.redirect('/game/index');
+        }
+    
         res.render('home');
+      } catch (error) {
+        next(error);
+      }
+
     }
    
 }

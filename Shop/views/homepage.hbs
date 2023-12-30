@@ -1,0 +1,88 @@
+<div class="container mt-4">
+  <!-- Content -->
+  <div class="row mt-4">
+    <!-- Online Users -->
+    <div class="col-md-4">
+      <h2>Người đang online</h2>
+      <div class="online-users list-group" id="onlineUsers">
+        <!-- Online users will be dynamically added here -->
+      </div>
+    </div>
+
+    <!-- Game Tables -->
+    <div class="col-md-4">
+      <h2>Danh sách Bàn chơi</h2>
+      <div class="game-tables list-group">
+        <!-- Game tables will be dynamically added here -->
+      </div>
+    </div>
+
+    <!-- Chat Box -->
+    <div class="col-md-4">
+      <h2>Khung chat chung</h2>
+      <div class="chat-box card">
+        <div class="card-body">
+            <ul id="list" class="list-group">
+            </ul>
+            
+          <!-- Chat messages will be dynamically added here -->
+        </div>
+      </div>
+      <form class="row g-3">
+                <div style="width:70%">
+                    <input type="text" class="form-control" id="msg">
+                </div>
+                <div class="col-auto">
+                    <button type="submit" id="send-chat" class="btn btn-primary mb-3">Submit</button>
+                </div>
+        </form>
+    </div>
+  </div>
+
+</div>
+ 
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
+
+<script>
+    const url = window.location.origin;
+    const pageName="homepage";
+    const socket = io(url, { query: `un={{username}}` });
+
+    // Khi nhận được cập nhật về danh sách người dùng đang online
+    socket.on('updateOnlineUsers', (users) => {
+      const onlineUsersList = document.getElementById('onlineUsers');
+      onlineUsersList.innerHTML = '';
+
+      users.forEach((user) => {
+        const listItem = document.createElement('li');
+        listItem.textContent = user.name;
+        onlineUsersList.appendChild(listItem);
+      });
+    });
+    
+  
+    $('form').submit((e)=>{
+            let name=`{{username}}`;
+            let message=$('#msg').val();
+            e.preventDefault();
+            if (name && message){
+                socket.emit('channel1',{name,message});
+            }
+            else if (message){
+                name='anonymous';
+                socket.emit('channel1',{name,message});
+            }
+            $('#msg').val('');
+            return false;
+        });
+
+        socket.on('channel1',msg=>{
+            if (msg){
+                $('#list').append($('<li>').addClass('list-group-item').html(`<strong>${msg.name}:</strong> ${msg.message}`));
+            }
+            
+        })
+  </script>

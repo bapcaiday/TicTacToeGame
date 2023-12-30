@@ -1,0 +1,187 @@
+
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+<!--Fonts Google-->
+<link href="https://fonts.googleapis.com/css2?family=Train+One&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Train+One&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,100;1,300&display=swap" rel="stylesheet">
+
+<!--Custom Css-->
+<link rel="stylesheet" href="../../public/css/main_game.css">
+
+<div id="message">Đang chờ người tham gia...</div>
+ 
+
+<div class="contenedor">
+    <div class="board">
+       <button id="r0c0"></button> <button id="r0c1"></button> <button id="r0c2"></button> <button id="r0c3"></button>
+        <button id="r1c0"></button> <button id="r1c1"></button> <button id="r1c2"></button> <button id="r1c3"></button>
+        <button id="r2c0"></button> <button id="r2c1"></button> <button id="r2c2"></button> <button id="r2c3"></button>
+        <button id="r3c0"></button> <button id="r3c1"></button> <button id="r3c2"></button> <button id="r3c3"></button>   
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+<script>
+    const url = window.location.origin;
+    const socket1 = io(url,{ query: {page:'board'} });
+
+    var myTurn = true;
+    var symbol;
+
+
+   function getBoardState() {
+       var obj = {};
+
+     /* We are creating an object where each attribute corresponds
+   to the name of a cell (r0c0, r0c1, ..., r2c2) and its value is
+   'X', 'O' or '' (empty).
+  */
+  $(".board button").each(function() {
+    obj[$(this).attr("id")] = $(this).text() || "";
+  });
+
+  return obj;
+}
+
+{{!-- function isGameOver() {
+    var state = getBoardState();
+    var matches = ["XXX", "OOO"]; // This are the string we will be looking for to declare the match over
+
+    // We are creating a string for each possible winning combination of the cells
+    var rows = [
+      state.r0c0 + state.r0c1 + state.r0c2, // 1st line
+      state.r1c0 + state.r1c1 + state.r1c2, // 2nd line
+      state.r2c0 + state.r2c1 + state.r2c2, // 3rd line
+      state.r0c0 + state.r1c0 + state.r2c0, // 1st column
+      state.r0c1 + state.r1c1 + state.r2c1, // 2nd column
+      state.r0c2 + state.r1c2 + state.r2c2, // 3rd column
+      state.r0c0 + state.r1c1 + state.r2c2, // Primary diagonal
+      state.r0c2 + state.r1c1 + state.r2c0  // Secondary diagonal
+      
+    ];
+
+    // Loop through all the rows looking for a match
+    for (var i = 0; i < rows.length; i++) {
+        if (rows[i] === matches[0] || rows[i] === matches[1]) {
+            return true;
+        }
+    }
+
+    return false;
+} --}}
+
+function isGameOver() {
+    var state = getBoardState();
+    var matches = ["XXXX", "OOOO"]; // Đổi giá trị cho bàn cờ 4x4
+
+    // Tương tự như trước, tạo chuỗi cho mỗi hàng, cột và đường chéo
+    var rows = [
+        state.r0c0 + state.r0c1 + state.r0c2 + state.r0c3, // 1st line
+        state.r1c0 + state.r1c1 + state.r1c2 + state.r1c3, // 2nd line
+        state.r2c0 + state.r2c1 + state.r2c2 + state.r2c3, // 3rd line
+        state.r3c0 + state.r3c1 + state.r3c2 + state.r3c3, // 4th line
+        state.r0c0 + state.r1c0 + state.r2c0 + state.r3c0, // 1st column
+        state.r0c1 + state.r1c1 + state.r2c1 + state.r3c1, // 2nd column
+        state.r0c2 + state.r1c2 + state.r2c2 + state.r3c2, // 3rd column
+        state.r0c3 + state.r1c3 + state.r2c3 + state.r3c3, // 4th column
+        state.r0c0 + state.r1c1 + state.r2c2 + state.r3c3, // Primary diagonal
+        state.r0c3 + state.r1c2 + state.r2c1 + state.r3c0  // Secondary diagonal
+    ];
+
+    for (var i = 0; i < rows.length; i++) {
+        if (rows[i] === matches[0] || rows[i] === matches[1]) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+function renderTurnMessage() {
+    if (!myTurn) { // If not player's turn disable the board
+        $("#message").text("Lượt đối thủ");
+        $(".board button").attr("disabled", true);
+    } else { // Enable it otherwise
+        $("#message").text("Đến lượt bạn.");
+        $(".board button").removeAttr("disabled");
+    }
+}
+
+{{!-- function makeMove(e) {
+    if (!myTurn) {
+        return; // Shouldn't happen since the board is disabled
+    }
+
+    if ($(this).text().length) {
+        return; // If cell is already checked
+    }
+
+    socket1.emit("make.move", { // Valid move (on client side) -> emit to server
+        symbol: symbol,
+        position: $(this).attr("id")
+    });
+} --}}
+
+function makeMove(e) {
+    if (!myTurn) {
+        return;
+    }
+
+    if ($(this).text().length) {
+        return;
+    }
+
+    socket1.emit("make.move", {
+        symbol: symbol,
+        position: $(this).attr("id")
+    });
+}
+
+// Bind event on players move
+socket1.on("move.made", function(data) {
+    $("#" + data.position).text(data.symbol); // Render move
+
+    // If the symbol of the last move was the same as the current player
+    // means that now is opponent's turn
+    myTurn = data.symbol !== symbol;
+
+    if (!isGameOver()) { // If game isn't over show who's turn is this
+        renderTurnMessage();
+    } else { // Else show win/lose message
+        if (myTurn) {
+            $("#message").text("Bạn thua 😯😓");
+            $("#message").css('background','#aa1f4d');
+            $("#message").css('color','white');
+        } else {
+            $("#message").text("Bạn thắng 😎😎");
+            $("#message").css('background','#16db93');
+            $("#message").css('color','white');
+        }
+
+        $(".board button").attr("disabled", true); // Disable board
+    }
+});
+
+
+// Bind event for game begin
+socket1.on("game.begin", function(data) {
+    symbol = data.symbol; // The server is assigning the symbol
+    myTurn = symbol === "X"; // 'X' starts first
+    renderTurnMessage();
+});
+
+// Bind on event for opponent leaving the game
+socket1.on("opponent.left", function() {
+    $("#message").text("Đối thủ đã rời khỏi bàn");
+    $(".board button").attr("disabled", true);
+});
+
+// Binding buttons on the board
+$(function() {
+  $(".board button").attr("disabled", true);  
+  $(".board> button").on("click", makeMove);
+});
+</script>
+   

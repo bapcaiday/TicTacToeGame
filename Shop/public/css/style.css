@@ -36,3 +36,8 @@ body{margin-top:20px;
         height: 60px;
         width: 60px;
     }
+
+    .online-users, .game-tables, .chat-box {
+        height: 400px; /* Adjust the height as needed */
+        overflow-y: auto;
+      }

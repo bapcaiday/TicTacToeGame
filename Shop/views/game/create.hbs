@@ -1,0 +1,35 @@
+<link rel="stylesheet" href="../../public/css/home_styles.css">
+<link rel="stylesheet" href="../../public/css/main_game.css">
+<link rel="stylesheet" href="../../public/css/normalize.css">
+
+<div class="container">
+        <div class="card">
+            <img src="https://i.pinimg.com/originals/52/ab/8c/52ab8ce239e052e34ba24d4d72a20947.png" alt="">
+            <h2>Tic Tac Toe</h2>
+            
+            <div class="cont">
+          
+                <div class="button">
+                    <span>
+                        <i class="fas fa-angle-right">Play</i>
+                    </span>
+                </div>
+
+            </div>
+        </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+<scrip src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></scrip>
+    
+
+<script>
+    const buttons = document.querySelectorAll(".button");
+
+for (const button of buttons) {
+  button.addEventListener("click", () => {
+    button.classList.toggle("button--active");
+    location.href = "/game/play"
+  });
+}
+</script>
