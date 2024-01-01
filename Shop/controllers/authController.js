@@ -1,6 +1,9 @@
 const jwt=require("jsonwebtoken");
 const db=require("../db/config")
 const User=require("../models/user");
+const path=require("path");
+
+const IMAGE_UPLOAD_PATH='/public/image/uploads/';
 
 class AuthController{
 
@@ -39,7 +42,9 @@ class AuthController{
       const newUser=new User({
         username:data.username,
         fullname:data.fullname,
-        avatar:data.avatar
+        avatar:data.avatar,
+        isCreator:false,
+        scores:0
       });
 
       const user=User.getByUn(newUser.username);
@@ -70,8 +75,37 @@ class AuthController{
       } catch (error) {
         next(error);
       }
-
     }
+
+
+    async profile(req,res,next){
+        try {
+          const isLogin = !!req.cookies.token;
+          if (isLogin) {
+              const data=jwt.verify(req.cookies.token,process.env.SECRET_KEY);
+              const currenUser=User.getByUn(data.username);
+              res.render('profile',{isLogin:isLogin,user:currenUser});
+          }
+          else{
+              res.redirect("/");
+          }
+        } catch (error) {
+          next(error);
+        }
+      }
+
+    async edit(req,res,next){
+        const username=req.params.id;
+        const image=req.file;
+        if (!image) {
+          return res.status(400).json({ message: 'No image uploaded' });
+       }
+       const imagePath = path.join(IMAGE_UPLOAD_PATH, image.filename);
+       User.update(username,req.body.uname, req.body.fname,imagePath);
+       res.redirect('/game/index')
+       
+    }
+    
    
 }
 

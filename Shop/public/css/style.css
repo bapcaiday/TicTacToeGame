@@ -41,3 +41,9 @@ body{margin-top:20px;
         height: 400px; /* Adjust the height as needed */
         overflow-y: auto;
       }
+
+      .ranking-container {
+        max-width: 600px;
+        margin: auto;
+        margin-top: 50px;
+      }

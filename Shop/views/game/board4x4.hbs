@@ -14,21 +14,53 @@
  
 
 <div class="contenedor">
+    <button type="button" class="btn btn-dark mb-2"><a class="text-light" href="/game/index">Back</a></button>
     <div class="board">
-       <button id="r0c0"></button> <button id="r0c1"></button> <button id="r0c2"></button> <button id="r0c3"></button>
+        <button id="r0c0"></button> <button id="r0c1"></button> <button id="r0c2"></button> <button id="r0c3"></button>
         <button id="r1c0"></button> <button id="r1c1"></button> <button id="r1c2"></button> <button id="r1c3"></button>
         <button id="r2c0"></button> <button id="r2c1"></button> <button id="r2c2"></button> <button id="r2c3"></button>
         <button id="r3c0"></button> <button id="r3c1"></button> <button id="r3c2"></button> <button id="r3c3"></button>   
     </div>
+
+    <div id="timer" class="text-dark">Thời gian còn lại: <span id="time">10</span> giây</div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
 <script>
-    const url = window.location.origin;
-    const socket1 = io(url,{ query: {page:'board'} });
+     const url = window.location.origin;
+    const un=`{{username}}`;
+    const table=`{{table}}`
+    const socket1 = io(url,{ query: {page:'board',un:un,tableId:table} });
 
     var myTurn = true;
     var symbol;
+    var initTime = 10;
+
+    var countdown; // Biến để lưu đối tượng đếm ngược
+  
+    function startTimer() {
+        var timeLeft=initTime;
+        // Thời gian đếm ngược (giây)
+        countdown = setInterval(function () {
+            timeLeft--;
+
+            // Hiển thị thời gian còn lại lên màn hình
+             $("#time").text(timeLeft);
+
+            if (timeLeft <= 0) {
+                // Nếu hết thời gian, đổi lượt và reset đồng hồ
+                if (myTurn){
+                   myTurn=false;
+                }
+               else{
+                  myTurn=true;
+                }
+            renderTurnMessage();
+            clearInterval(countdown);
+            startTimer();
+          }
+        }, 1000); 
+    }
 
 
    function getBoardState() {
@@ -45,32 +77,6 @@
   return obj;
 }
 
-{{!-- function isGameOver() {
-    var state = getBoardState();
-    var matches = ["XXX", "OOO"]; // This are the string we will be looking for to declare the match over
-
-    // We are creating a string for each possible winning combination of the cells
-    var rows = [
-      state.r0c0 + state.r0c1 + state.r0c2, // 1st line
-      state.r1c0 + state.r1c1 + state.r1c2, // 2nd line
-      state.r2c0 + state.r2c1 + state.r2c2, // 3rd line
-      state.r0c0 + state.r1c0 + state.r2c0, // 1st column
-      state.r0c1 + state.r1c1 + state.r2c1, // 2nd column
-      state.r0c2 + state.r1c2 + state.r2c2, // 3rd column
-      state.r0c0 + state.r1c1 + state.r2c2, // Primary diagonal
-      state.r0c2 + state.r1c1 + state.r2c0  // Secondary diagonal
-      
-    ];
-
-    // Loop through all the rows looking for a match
-    for (var i = 0; i < rows.length; i++) {
-        if (rows[i] === matches[0] || rows[i] === matches[1]) {
-            return true;
-        }
-    }
-
-    return false;
-} --}}
 
 function isGameOver() {
     var state = getBoardState();
@@ -109,20 +115,6 @@ function renderTurnMessage() {
     }
 }
 
-{{!-- function makeMove(e) {
-    if (!myTurn) {
-        return; // Shouldn't happen since the board is disabled
-    }
-
-    if ($(this).text().length) {
-        return; // If cell is already checked
-    }
-
-    socket1.emit("make.move", { // Valid move (on client side) -> emit to server
-        symbol: symbol,
-        position: $(this).attr("id")
-    });
-} --}}
 
 function makeMove(e) {
     if (!myTurn) {
@@ -149,6 +141,8 @@ socket1.on("move.made", function(data) {
 
     if (!isGameOver()) { // If game isn't over show who's turn is this
         renderTurnMessage();
+        clearInterval(countdown);
+        startTimer();
     } else { // Else show win/lose message
         if (myTurn) {
             $("#message").text("Bạn thua 😯😓");
@@ -158,7 +152,9 @@ socket1.on("move.made", function(data) {
             $("#message").text("Bạn thắng 😎😎");
             $("#message").css('background','#16db93');
             $("#message").css('color','white');
+            socket1.emit("winner",symbol);
         }
+        clearInterval(countdown);
 
         $(".board button").attr("disabled", true); // Disable board
     }
@@ -170,6 +166,7 @@ socket1.on("game.begin", function(data) {
     symbol = data.symbol; // The server is assigning the symbol
     myTurn = symbol === "X"; // 'X' starts first
     renderTurnMessage();
+    startTimer();
 });
 
 // Bind on event for opponent leaving the game

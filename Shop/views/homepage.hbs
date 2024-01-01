@@ -2,42 +2,53 @@
   <!-- Content -->
   <div class="row mt-4">
     <!-- Online Users -->
-    <div class="col-md-4">
-      <h2>Người đang online</h2>
-      <div class="online-users list-group" id="onlineUsers">
-        <!-- Online users will be dynamically added here -->
+    <div class="col-md-3">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="mb-0">Người đang online</h2>
+        </div>
+        <ul id="onlineUsers" class="list-group list-group-flush">
+         
+          <!-- Add more items as needed -->
+        </ul>
       </div>
     </div>
 
     <!-- Game Tables -->
     <div class="col-md-4">
-      <h2>Danh sách Bàn chơi</h2>
-      <div class="game-tables list-group">
-        <!-- Game tables will be dynamically added here -->
-      </div>
-    </div>
+      <div class="card">
+       <div class="card-header">
+          <h2 class="mb-0">Danh sách bàn chơi</h2>
+        </div>
+
+    <ul class="list-group" id="availableTables">
+      
+    </ul>
+
+  </div>
+</div>
 
     <!-- Chat Box -->
-    <div class="col-md-4">
-      <h2>Khung chat chung</h2>
-      <div class="chat-box card">
+    <div class="col-md-5">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="mb-0">Khung chat chung</h2>
+        </div>
         <div class="card-body">
-            <ul id="list" class="list-group">
-            </ul>
-            
-          <!-- Chat messages will be dynamically added here -->
+          <ul id="list" class="list-group mb-3">
+            <!-- Chat messages will be dynamically added here -->
+          </ul>
+          <form id="chat-form" class="row g-3">
+            <div class="col-9">
+              <input type="text" class="form-control" id="msg" placeholder="Nhập tin nhắn...">
+            </div>
+            <div class="col-3">
+              <button type="submit" id="send-chat" class="btn btn-primary btn-block">Gửi</button>
+            </div>
+          </form>
         </div>
       </div>
-      <form class="row g-3">
-                <div style="width:70%">
-                    <input type="text" class="form-control" id="msg">
-                </div>
-                <div class="col-auto">
-                    <button type="submit" id="send-chat" class="btn btn-primary mb-3">Submit</button>
-                </div>
-        </form>
     </div>
-  </div>
 
 </div>
  
@@ -51,17 +62,39 @@
     const pageName="homepage";
     const socket = io(url, { query: `un={{username}}` });
 
+    socket.on('updateAvailableTables', (data) => {
+      console.log(data);
+      const availableTables = document.getElementById('availableTables');
+      availableTables.innerHTML = '';
+      data.forEach((table)=>{
+         const listItem = document.createElement('li');
+        listItem.className = 'list-group-item d-flex justify-content-start align-items-center';
+        const link = document.createElement('a');
+        link.textContent = `Table ${table.id}`;
+        link.href = `/game/table/${table.id}`; // Đặt giá trị href theo nhu cầu của bạn
+        const userIcon = document.createElement('i');
+        listItem.appendChild(link);
+         availableTables.appendChild(listItem);
+      })
+    });
+
     // Khi nhận được cập nhật về danh sách người dùng đang online
     socket.on('updateOnlineUsers', (users) => {
       const onlineUsersList = document.getElementById('onlineUsers');
       onlineUsersList.innerHTML = '';
+     
 
       users.forEach((user) => {
         const listItem = document.createElement('li');
-        listItem.textContent = user.name;
+        listItem.innerHTML = `
+             <i class="fas fa-circle text-success mr-2"></i>
+             <span>${user.name}</span>`;
+        listItem.className = 'list-group-item d-flex justify-content-start align-items-center';
         onlineUsersList.appendChild(listItem);
       });
     });
+
+    
     
   
     $('form').submit((e)=>{

@@ -5,7 +5,9 @@ const GameController=require('../controllers/gameController');
 
 
 route.get('/index',GameController.index);
+route.get('/ranking',GameController.ranking);
 route.get('/create',GameController.create);
-route.get('/play',GameController.play);
+route.get('/play/:size',GameController.play);
+route.get('/table/:id',GameController.start);
 
 module.exports=route;

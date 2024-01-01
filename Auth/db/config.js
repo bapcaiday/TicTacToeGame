@@ -28,7 +28,6 @@ module.exports={
     update: (dataJson)=>{
         try {
       fs.writeFileSync(dataFilePath, JSON.stringify(dataJson, null, 2));
-      console.log('Update successfully.');
 
       // Đọc lại nội dung sau khi ghi
       const updatedData = fs.readFileSync(dataFilePath, 'utf-8');

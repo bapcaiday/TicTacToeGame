@@ -1,5 +1,5 @@
 *{
-    color:white;
+    color:rgb(211, 202, 202);
 }
 body{
     background: #e6e8ef/* fallback for old browsers */
@@ -44,15 +44,15 @@ body{
 
 .board{
     display: grid;
-    grid-template-columns: 150px 150px 150px 150px;
+    grid-template-columns: 200px 200px 200px;
     grid-gap: 10px;
     width: 620px;
     height: 450px;
     border: none;
     border-radius: 14px;
     background: #e6e8ef;
-    box-shadow:  12px 12px 12px 24px #c7c7c7,
-             -12px -12px -12px 24px #f9f9f9;
+    box-shadow:  12px 12px 24px #c7c7c7,
+             -12px -12px 24px #f9f9f9;
 }
 
 .board > #r0c0:hover{
@@ -88,17 +88,6 @@ body{
     transition: box-shadow 0.2s linear 0.2s;
 }
 
-.board > #r0c3:hover{
-    border-radius: 16px;
-    background: #a4c3b2;
-    box-shadow:  11px 11px 25px #b6b7bd,
-                 -11px -11px 25px #ffffff;
-}
-
-.board > #r0c3{
-    transition: box-shadow 0.2s linear 0.2s;
-}
-
 .board > #r1c0:hover{
     border-radius: 16px;
     background: #a4c3b2;
@@ -122,17 +111,6 @@ body{
 } 
 
 .board > #r1c2:hover{
-    border-radius: 16px;
-    background: #a4c3b2;
-    box-shadow:  11px 11px 25px #b6b7bd,
-                 -11px -11px 25px #ffffff;
-}
-
-.board > #r1c3{
-    transition: box-shadow 0.2s linear 0.2s;
-} 
-
-.board > #r1c3:hover{
     border-radius: 16px;
     background: #a4c3b2;
     box-shadow:  11px 11px 25px #b6b7bd,
@@ -171,57 +149,6 @@ body{
 
 .board > #r2c2{
     transition: box-shadow 0.2s linear 0.2s;
-}
-
-.board > #r2c3:hover{
-    border-radius: 16px;
-    background: #a4c3b2;
-    box-shadow:  11px 11px 25px #b6b7bd,
-                 -11px -11px 25px #ffffff;
-}
-
-.board > #r2c3{
-    transition: box-shadow 0.2s linear 0.2s;
-}
-
-.board > #r3c0:hover{
-    border-radius: 16px;
-    background: #a4c3b2;
-    box-shadow:  11px 11px 25px #b6b7bd,
-                 -11px -11px 25px #ffffff;
-}
-
-.board > #r3c0{
-    transition: box-shadow 0.2s linear 0.2s;
-}
-
-.board > #r3c1:hover{
-    border-radius: 16px;
-    background: #a4c3b2;
-    box-shadow:  11px 11px 25px #b6b7bd,
-                 -11px -11px 25px #ffffff;
-}
-
-.board > #r3c1{
-    transition: box-shadow 0.2s linear 0.2s;
-} 
-
-.board > #r3c2:hover{
-    border-radius: 16px;
-    background: #a4c3b2;
-    box-shadow:  11px 11px 25px #b6b7bd,
-                 -11px -11px 25px #ffffff;
-}
-
-.board > #r3c3{
-    transition: box-shadow 0.2s linear 0.2s;
-} 
-
-.board > #r3c3:hover{
-    border-radius: 16px;
-    background: #a4c3b2;
-    box-shadow:  11px 11px 25px #b6b7bd,
-                 -11px -11px 25px #ffffff;
 }
 
  #github{

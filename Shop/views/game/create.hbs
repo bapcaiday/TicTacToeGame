@@ -6,15 +6,25 @@
         <div class="card">
             <img src="https://i.pinimg.com/originals/52/ab/8c/52ab8ce239e052e34ba24d4d72a20947.png" alt="">
             <h2>Tic Tac Toe</h2>
+
+            <span><p>Select Board</p></span>
+           <form name="board-form">
+               <div class="custom-control custom-radio custom-control-inline">
+                 <input type="radio" class="custom-control-input" id="customRadio" name="size" value="3">
+                 <label class="custom-control-label text-dark" for="customRadio">3x3</label>
+               </div>
+               <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" class="custom-control-input" id="customRadio2" name="size" value="4">
+                <label class="custom-control-label text-dark" for="customRadio2">4x4</label>
+                </div>
+            </form>
             
             <div class="cont">
-          
                 <div class="button">
                     <span>
                         <i class="fas fa-angle-right">Play</i>
                     </span>
                 </div>
-
             </div>
         </div>
 </div>
@@ -28,8 +38,9 @@
 
 for (const button of buttons) {
   button.addEventListener("click", () => {
+    const selectedSize = $("input[name='size']:checked").val();
     button.classList.toggle("button--active");
-    location.href = "/game/play"
+    location.href = `./play/${selectedSize}`
   });
 }
 </script>

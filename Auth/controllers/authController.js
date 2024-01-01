@@ -1,6 +1,6 @@
 const db = require("../db/config");
 const bcrypt = require("bcrypt");
-const User=require('../models/user')
+const User=require('../models/user');
 const jwt=require("jsonwebtoken")
 
 class AuthController{

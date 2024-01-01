@@ -1,12 +1,13 @@
 <nav class="navbar bg-light p-2 mt-2 mb-2 rounded-2 p-3">
   <div class="container-fluid">
-    <a class="navbar-brand mb-0 h1" href="/">Toe Tac Toe Game</a>
+    <a class="navbar-brand mb-0 h1 text-dark" href="/game/index">Toe Tac Toe Game</a>
     <nav style="--bs-breadcrumb-divider: '|';" aria-label="breadcrumb">
       <ol class="breadcrumb d-flex align-items-center m-0">
         {{#if isLogin}}      
-          <a class="breadcrumb-item nav-link" href="/game/create">Tạo Bàn chơi</a>
-          <a class="breadcrumb-item nav-link" href="/leaderboard">Xem bảng xếp hạng</a>
-          <a class="breadcrumb-item nav-link" href="/logout">Logout</a>
+          <a class="breadcrumb-item nav-link text-dark" href="/game/create">Tạo Bàn chơi</a>
+          <a class="breadcrumb-item nav-link text-dark" href="/game/ranking">Xem bảng xếp hạng</a>
+          <a class="breadcrumb-item nav-link text-dark" href="/profile/{{username}}">Profile</a>
+          <a class="breadcrumb-item nav-link text-dark" href="/logout">Logout</a>
         {{/if}}
       </ol>
     </nav>

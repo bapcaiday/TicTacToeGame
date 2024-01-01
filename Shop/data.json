@@ -3,17 +3,97 @@
     {
       "fullname": "Thanh Hue",
       "username": "thue",
-      "avatar": ""
+      "avatar": "\\public\\image\\uploads\\1704024065044.jpg",
+      "isCreator": false,
+      "scores": 4
     },
     {
       "fullname": "Thai Bao",
       "username": "bao",
-      "avatar": ""
+      "avatar": "",
+      "isCreator": false,
+      "scores": 3
     },
     {
       "fullname": "Le Nhu",
       "username": "un1",
-      "avatar": ""
+      "avatar": "",
+      "isCreator": false,
+      "scores": 2
+    }
+  ],
+  "Boards": [
+    {
+      "id": 1,
+      "status": "end",
+      "creator": "bao",
+      "player": null,
+      "size": "3",
+      "winner": "bao"
+    },
+    {
+      "id": 2,
+      "status": "end",
+      "creator": "thue",
+      "player": null,
+      "size": "4",
+      "winner": null
+    },
+    {
+      "id": 3,
+      "status": "end",
+      "creator": "bao",
+      "player": null,
+      "size": "3",
+      "winner": "thue"
+    },
+    {
+      "id": 4,
+      "status": "end",
+      "creator": "un1",
+      "player": null,
+      "size": "4",
+      "winner": "un1"
+    },
+    {
+      "id": 5,
+      "status": "end",
+      "creator": "un1",
+      "player": null,
+      "size": "3",
+      "winner": null
+    },
+    {
+      "id": 6,
+      "status": "end",
+      "creator": "bao",
+      "player": null,
+      "size": "3",
+      "winner": null
+    },
+    {
+      "id": 7,
+      "status": "end",
+      "creator": "thue",
+      "player": null,
+      "size": "4",
+      "winner": "thue"
+    },
+    {
+      "id": 8,
+      "status": "end",
+      "creator": "bao",
+      "player": null,
+      "size": "3",
+      "winner": "thue"
+    },
+    {
+      "id": 9,
+      "status": "end",
+      "creator": "thue",
+      "player": null,
+      "size": "3",
+      "winner": "un1"
     }
   ]
 }
